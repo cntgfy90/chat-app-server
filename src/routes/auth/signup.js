@@ -1,6 +1,6 @@
 const router = require("express").Router();
-const User = require("../../models/User");
 const emailValidator = require("email-validator");
+const User = require("../../models/User");
 
 router.post("/signup", (req, res) => {
 	const { firstName, lastName, email, password, confirmPassword } = req.body;

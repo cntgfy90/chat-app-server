@@ -1,7 +1,8 @@
 const Sequelize = require("sequelize");
 
-const db = new Sequelize("chat_app", "root", "kozak210699", {
-	host: "localhost",
+const { DB_NAME, DB_USER, DB_PASS, DB_HOST } = process.env;
+const db = new Sequelize(DB_NAME, DB_USER, DB_PASS, {
+	host: DB_HOST,
 	dialect: "mysql",
 	pool: {
 		max: 5,
