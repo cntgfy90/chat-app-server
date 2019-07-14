@@ -1,36 +1,22 @@
-const router = require("express").Router();
-const emailValidator = require("email-validator");
 const User = require("../../models/User");
 
-router.post("/signup", (req, res) => {
-	const { firstName, lastName, email, password, confirmPassword } = req.body;
-	const errors = [];
+module.exports = (req, res) => {
+  const { email, password, confirmPassword } = req.body;
 
-	if (!firstName || !lastName || !email || !password || !confirmPassword) {
-		errors.push({ msg: "Some fields are empty." });
-	}
-
-	if (!emailValidator.validate(email)) {
-		errors.push({ msg: "Provided email's format is not correct." });
-	}
-
-	if (password !== confirmPassword) {
-		errors.push({ msg: "Passwords do not match." });
-	}
-
-	if (password.length > 6) {
-		errors.push({ msg: "Password must be at least 6 characters length." });
-	}
-
-	if (errors.length) {
-		res.send(errors);
-	} else {
-		User.findOrCreate({ where: { email } })
-			.then(user => {
-				res.send(`Email ${user.email} is already taken.`);
-			});
-	}
-
-});
-
-module.exports = router;
+  if (password === confirmPassword) {
+    User.findOne({ where: { email } }).then(user => {
+      if (!user) {
+        User.create(req.body, [
+          "firstName",
+          "lastName",
+          "email",
+          "password"
+        ]).then(createdUser => {
+          res.send(createdUser);
+        });
+      }
+    });
+  } else {
+    res.send({ msg: "Passwords do not match." });
+  }
+};

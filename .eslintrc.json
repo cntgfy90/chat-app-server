@@ -15,7 +15,14 @@
     "parserOptions": {
         "ecmaVersion": 2018
     },
+    "plugins": ["prettier"],
     "rules": {
-        "prettier/prettier": "error"
+        "prettier/prettier": "error",
+        "linebreak-style": ["error", "windows"],
+        "quotes": ["error", "double"],
+        "comma-dangle": ["error", "never"],
+        "arrow-parens": ["error", "as-needed"],
+        "no-param-reassign": ["error", { "props": false }],
+        "consistent-return": ["error", { "treatUndefinedAsUnspecified": true }]
     }
 }
